@@ -1,0 +1,99 @@
+<!-- stock_search.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Search</title>
+
+    <style>
+        .suggestions-container {
+            position: relative;
+        }
+
+        .suggestions {
+            position: absolute;
+            width: 100%;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            max-height: 150px;
+            overflow-y: auto;
+            list-style-type: none;
+            padding-left: 0;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .suggestions li {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .suggestions li:hover {
+            background-color: #ddd;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+    $('#ticker').keyup(function(){
+        var query = $(this).val();
+        if(query !== ''){
+            console.log("Fetching suggestions for query:", query); // Debugging line
+            $.ajax({
+                url: "{% url 'stock_suggestions' %}",
+                data: {
+                    'query': query
+                },
+                dataType: 'json',
+                success: function(data){
+                    console.log("Received suggestions:", data.suggestions); // Debugging line
+                    var suggestions = data.suggestions;
+                    var suggestionList = $('#suggestions');
+                    suggestionList.empty();
+                    if (suggestions.length > 0) {
+                        $.each(suggestions, function(i, suggestion){
+                            suggestionList.append('<li class="suggestion">' + suggestion + '</li>');
+                        });
+                        $('.suggestions').show();
+                    } else {
+                        $('.suggestions').hide();
+                    }
+                }
+            });
+        } else {
+            $('.suggestions').hide();
+        }
+    });
+
+    $(document).on('click', '.suggestion', function(){
+        var ticker = $(this).text();
+        window.location.href = "/redirect/company/?ticker=" + ticker;
+    });
+
+    $(document).mouseup(function(e) {
+        var container = $(".suggestions-container");
+        if (!container.is(e.target) && container.has(e.target).length === 0) {
+            container.find('.suggestions').hide();
+        }
+    });
+});
+
+
+    </script>
+</head>
+<body>
+    <h1>Stock Search</h1>
+    <form>
+        <label for="ticker">Enter Ticker:</label>
+        <input type="text" id="ticker" name="ticker" required>
+        <div class="suggestions-container">
+            <ul id="suggestions" class="suggestions"></ul>
+        </div>
+    </form>
+
+    
+</body>
+</html>

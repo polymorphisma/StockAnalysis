@@ -1,0 +1,58 @@
+body{
+    background-color: #22262f;
+    margin: 10px 255px;
+    color: white;
+}
+
+.heading-text{
+    color: white;
+}
+
+
+.candle-stick-chart{
+    height: 540px;
+    width: 100%;
+}
+
+.candle-container{
+    background-color: #000000;
+    border-radius: 10px;
+    padding: 2px 0px;
+}
+
+
+.technical-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.technical-table th, td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.technical-table a{
+    text-decoration: none;
+    color: white;
+}
+.buy {
+    /* color: green;*/
+    background-color: green;
+    color: white;
+}
+
+.sell {
+    background-color: red;
+    color: white;
+}
+
+.technical-table-heading{
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.technical-table-heading{
+    text-align: end;
+}

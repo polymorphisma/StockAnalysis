@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="/static/js/company.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.42.0/apexcharts.min.js" integrity="sha512-HctQcT5hnI/elQck4950pvd50RuDnjCSGSoHI8CNyQIYVxsUoyJ+gSQIOrll4oM/Z7Kfi7WCLMIbJbiwYHFCpA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.42.0/apexcharts.min.css" integrity="sha512-nnNXPeQKvNOEUd+TrFbofWwHT0ezcZiFU5E/Lv2+JlZCQwQ/ACM33FxPoQ6ZEFNnERrTho8lF0MCEH9DBZ/wWw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    
+    <script src="/static/js/search.js"></script>
+
+
+    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="stylesheet" href="/static/css/search.css">
+    <link rel="stylesheet" href="/static/css/nav.css">
+
+
+    <title>Document</title>
+</head>
+<body>
+    <nav class="top-nav-bar">
+        <div class="heading-text">
+            <h1>StockAnalysis</h1>
+        </div>
+
+        <form>
+            <input type="text" id="ticker" name="ticker" required>
+            <div class="suggestions-container">
+                <ul id="suggestions" class="suggestions"></ul>
+            </div>
+        </form>
+    
+    </nav>
+    <div class="candle-stick-chart">
+        <div class="candle-container">
+            <div class="col-md-12 widget-holder">
+                <div class="index-chart-container index-chart-hidden" id="index-chart-container-candle" style="margin-top: 20px;">
+                  <div id="chart-heading-candle" class="chart-heading"></div>
+                  <!-- <div id="chart-candle" class="index-chart chart-candle"></div> -->
+                </div>
+              </div>
+        </div>
+        
+        <canvas id="myChart"></canvas>  
+    </div>
+    
+
+    <div>
+        <div class="technical-table-heading">
+            <h1>Technical Indicators</h1>
+            <p>Last Updated: {{ updated_date }}</p>
+        </div>
+        <table class="technical-table">
+            <thead>
+                <tr>
+                    <th>Ticker</th>
+                    <th>Stochrsi</th>
+                    <th>SMA</th>
+                    <th>RSI</th>
+                    <th>Momentum</th>
+                    <th>MACD</th>
+                    <th>EMA</th>
+                    <th>Bollinger</th>
+                    <th>Updated Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for signal in stock_signals %}
+                <tr>
+                    <td>{{ signal.ticker }}</td>
+                    <td class="{% if signal.stochrsi == 'Buy' %}buy{% elif signal.stochrsi == 'Sell' %}sell{% endif %}">{{ signal.stochrsi }}</td>
+                    <td class="{% if signal.sma == 'Buy' %}buy{% elif signal.sma == 'Sell' %}sell{% endif %}">{{ signal.sma }}</td>
+                    <td class="{% if signal.rsi == 'Buy' %}buy{% elif signal.rsi == 'Sell' %}sell{% endif %}">{{ signal.rsi }}</td>
+                    <td class="{% if signal.momentum == 'Buy' %}buy{% elif signal.momentum == 'Sell' %}sell{% endif %}">{{ signal.momentum }}</td>
+                    <td class="{% if signal.macd == 'Buy' %}buy{% elif signal.macd == 'Sell' %}sell{% endif %}">{{ signal.macd }}</td>
+                    <td class="{% if signal.ema == 'Buy' %}buy{% elif signal.ema == 'Sell' %}sell{% endif %}">{{ signal.ema }}</td>
+                    <td class="{% if signal.boolinger == 'Buy' %}buy{% elif signal.boolinger == 'Sell' %}sell{% endif %}">{{ signal.boolinger }}</td>
+                    <td>{{ signal.updated_date }}</td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
